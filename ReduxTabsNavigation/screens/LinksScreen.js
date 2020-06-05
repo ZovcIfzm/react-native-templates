@@ -2,44 +2,50 @@ import * as React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
-
+import GestureRecognizer from 'react-native-swipe-gestures';
 
 import {connect} from 'react-redux';
 
 class LinksScreen extends React.Component {
   render(){
     return (
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        
-        <TouchableOpacity onPress={() => this.props.increaseCounter()}>
-          <Text style={styles.getStartedText}>
-            CountUp
-          </Text>
-        </TouchableOpacity>
-
-        
-        <Text style={styles.getStartedText}>{this.props.counter}</Text>
-        
-        <OptionButton
-          icon="md-school"
-          label="Read the Expo documentation"
-        />
-
-        <OptionButton
-          icon="md-compass"
-          label="Read the React Navigation documentation"
+      <GestureRecognizer style={styles.container} onSwipeRight={this._onSwipeRight}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           
-        />
+          <TouchableOpacity onPress={() => this.props.increaseCounter()}>
+            <Text style={styles.getStartedText}>
+              CountUp
+            </Text>
+          </TouchableOpacity>
 
-        <OptionButton
-          icon="ios-chatboxes"
-          label="Ask a question on the forums"
-         
-          isLastOption
-        />
-      </ScrollView>
+          
+          <Text style={styles.getStartedText}>{this.props.counter}</Text>
+          
+          <OptionButton
+            icon="md-school"
+            label="Read the Expo documentation"
+          />
+
+          <OptionButton
+            icon="md-compass"
+            label="Read the React Navigation documentation"
+            
+          />
+
+          <OptionButton
+            icon="ios-chatboxes"
+            label="Ask a question on the forums"
+          
+            isLastOption
+          />
+        </ScrollView>
+      </GestureRecognizer>
     );
   }
+  
+  _onSwipeRight = gestureState =>{
+    this.props.navigation.navigate('Home')
+  }  
 }
 
 function OptionButton({ icon, label, onPress, isLastOption }) {
