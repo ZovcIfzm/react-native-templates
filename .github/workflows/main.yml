@@ -1,14 +1,25 @@
-name: auto-merge
+---
+name: Repository
 
 on:
-  pull_request_target:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/labels.yml
 
 jobs:
-  auto-merge:
+  labels:
+    name: Labels
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Sync labels
+        uses: micnncim/action-label-syncer@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          target: minor
-          github-token: ${{ secrets.mytoken }}
+          manifest: .github/labels.yml
